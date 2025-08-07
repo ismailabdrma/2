@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:tns="http://example.com/products"
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                  targetNamespace="http://example.com/products">
+
+    <wsdl:types>
+        <xsd:schema targetNamespace="http://example.com/products">
+            <xsd:element name="GetProductsRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="category" type="xsd:string" minOccurs="0"/>
+                        <xsd:element name="limit" type="xsd:int" minOccurs="0"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="GetProductsResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="Product" type="tns:ProductType" minOccurs="0" maxOccurs="unbounded"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:complexType name="ProductType">
+                <xsd:sequence>
+                    <xsd:element name="id" type="xsd:string"/>
+                    <xsd:element name="name" type="xsd:string"/>
+                    <xsd:element name="description" type="xsd:string"/>
+                    <xsd:element name="price" type="xsd:decimal"/>
+                    <xsd:element name="stock" type="xsd:int"/>
+                    <xsd:element name="category" type="xsd:string"/>
+                    <xsd:element name="imageUrl" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:element name="GetProductByIdRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="productId" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="GetProductByIdResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="Product" type="tns:ProductType" minOccurs="0"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="UpdateStockRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="productId" type="xsd:string"/>
+                        <xsd:element name="newStock" type="xsd:int"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="UpdateStockResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="success" type="xsd:boolean"/>
+                        <xsd:element name="message" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+        </xsd:schema>
+    </wsdl:types>
+
+    <wsdl:message name="GetProductsRequest">
+        <wsdl:part name="parameters" element="tns:GetProductsRequest"/>
+    </wsdl:message>
+    <wsdl:message name="GetProductsResponse">
+        <wsdl:part name="parameters" element="tns:GetProductsResponse"/>
+    </wsdl:message>
+
+    <wsdl:message name="GetProductByIdRequest">
+        <wsdl:part name="parameters" element="tns:GetProductByIdRequest"/>
+    </wsdl:message>
+    <wsdl:message name="GetProductByIdResponse">
+        <wsdl:part name="parameters" element="tns:GetProductByIdResponse"/>
+    </wsdl:message>
+
+    <wsdl:message name="UpdateStockRequest">
+        <wsdl:part name="parameters" element="tns:UpdateStockRequest"/>
+    </wsdl:message>
+    <wsdl:message name="UpdateStockResponse">
+        <wsdl:part name="parameters" element="tns:UpdateStockResponse"/>
+    </wsdl:message>
+
+    <wsdl:portType name="ProductServicePortType">
+        <wsdl:operation name="GetProducts">
+            <wsdl:input message="tns:GetProductsRequest"/>
+            <wsdl:output message="tns:GetProductsResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="GetProductById">
+            <wsdl:input message="tns:GetProductByIdRequest"/>
+            <wsdl:output message="tns:GetProductByIdResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="UpdateStock">
+            <wsdl:input message="tns:UpdateStockRequest"/>
+            <wsdl:output message="tns:UpdateStockResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+
+    <wsdl:binding name="ProductServiceSoapBinding" type="tns:ProductServicePortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="GetProducts">
+            <soap:operation soapAction="http://example.com/products/GetProducts"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="GetProductById">
+            <soap:operation soapAction="http://example.com/products/GetProductById"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="UpdateStock">
+            <soap:operation soapAction="http://example.com/products/UpdateStock"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+
+    <wsdl:service name="ProductService">
+        <wsdl:port name="ProductServiceSoapPort" binding="tns:ProductServiceSoapBinding">
+            <soap:address location="http://localhost:8081/ws/products"/> <!-- Example SOAP endpoint -->
+        </wsdl:port>
+    </wsdl:service>
+
+</wsdl:definitions>

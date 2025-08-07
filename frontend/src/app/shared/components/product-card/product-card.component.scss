@@ -1,0 +1,74 @@
+.product-card {
+  width: 100%;
+  max-width: 300px;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%; /* Ensure cards in a grid have consistent height */
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  mat-card-image {
+    height: 200px;
+    object-fit: cover;
+    width: 100%;
+    border-bottom: 1px solid #eee;
+  }
+
+  mat-card-content {
+    padding: 16px;
+    flex-grow: 1; /* Allow content to take available space */
+
+    .product-name {
+      font-size: 1.2em;
+      font-weight: bold;
+      margin-top: 0;
+      margin-bottom: 8px;
+      color: #3f51b5; /* Primary color */
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .product-category {
+      font-size: 0.9em;
+      color: #777;
+      margin-bottom: 8px;
+    }
+
+    .product-price {
+      font-size: 1.3em;
+      font-weight: bold;
+      color: #4caf50; /* Green for price */
+      margin-bottom: 8px;
+    }
+
+    .product-stock {
+      font-size: 0.9em;
+      color: green;
+      font-weight: 500;
+
+      &.out-of-stock {
+        color: red;
+      }
+    }
+  }
+
+  mat-card-actions {
+    padding: 8px 16px 16px;
+    display: flex;
+    justify-content: center; /* Center the button */
+
+    button {
+      width: 100%; /* Make button full width of actions area */
+      mat-icon {
+        margin-right: 8px;
+      }
+    }
+  }
+}

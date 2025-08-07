@@ -1,0 +1,124 @@
+<h2 mat-dialog-title>{{ data ? 'Edit Supplier' : 'Add Supplier' }}</h2>
+<mat-dialog-content>
+  <form [formGroup]="supplierForm">
+    <mat-form-field class="full-width" appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" required>
+      <mat-error *ngIf="supplierForm.get('name')?.hasError('required') && supplierForm.get('name')?.touched">
+        Name is required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="full-width" appearance="outline">
+      <mat-label>Contact Email</mat-label>
+      <input matInput formControlName="contactEmail" required>
+      <mat-error *ngIf="supplierForm.get('contactEmail')?.hasError('required') && supplierForm.get('contactEmail')?.touched">
+        Email is required
+      </mat-error>
+      <mat-error *ngIf="supplierForm.get('contactEmail')?.hasError('email') && supplierForm.get('contactEmail')?.touched">
+        Invalid email format
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="full-width" appearance="outline">
+      <mat-label>Contact Phone</mat-label>
+      <input matInput formControlName="contactPhone">
+    </mat-form-field>
+
+    <mat-form-field class="full-width" appearance="outline">
+      <mat-label>Address</mat-label>
+      <textarea matInput formControlName="address" rows="2"></textarea>
+    </mat-form-field>
+
+    <mat-form-field class="full-width" appearance="outline">
+      <mat-label>Data Format</mat-label>
+      <mat-select formControlName="dataFormat" required (selectionChange)="onDataFormatChange()">
+        <mat-option value="API">API</mat-option>
+        <mat-option value="CSV">CSV</mat-option>
+        <mat-option value="EXCEL">Excel</mat-option>
+        <mat-option value="SOAP">SOAP</mat-option>
+      </mat-select>
+      <mat-error *ngIf="supplierForm.get('dataFormat')?.hasError('required') && supplierForm.get('dataFormat')?.touched">
+        Data Format is required
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Conditional fields based on dataFormat -->
+    <ng-container [ngSwitch]="supplierForm.get('dataFormat')?.value">
+      <mat-form-field *ngSwitchCase="'API'" class="full-width" appearance="outline">
+        <mat-label>API URL</mat-label>
+        <input matInput formControlName="apiUrl" required>
+        <mat-error *ngIf="supplierForm.get('apiUrl')?.hasError('required') && supplierForm.get('apiUrl')?.touched">
+          API URL is required for API format
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field *ngSwitchCase="'CSV'" class="full-width" appearance="outline">
+        <mat-label>CSV Delimiter</mat-label>
+        <input matInput formControlName="csvDelimiter" required>
+        <mat-error *ngIf="supplierForm.get('csvDelimiter')?.hasError('required') && supplierForm.get('csvDelimiter')?.touched">
+          CSV Delimiter is required for CSV format
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field *ngSwitchCase="'EXCEL'" class="full-width" appearance="outline">
+        <mat-label>Excel Sheet Name</mat-label>
+        <input matInput formControlName="excelSheetName" required>
+        <mat-error *ngIf="supplierForm.get('excelSheetName')?.hasError('required') && supplierForm.get('excelSheetName')?.touched">
+          Excel Sheet Name is required for Excel format
+        </mat-error>
+      </mat-form-field>
+
+      <ng-container *ngSwitchCase="'SOAP'">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>WSDL URL</mat-label>
+          <input matInput formControlName="wsdlUrl" (blur)="loadWsdlOperations()" required>
+          <mat-hint>Enter WSDL URL and then select operation</mat-hint>
+          <mat-error *ngIf="supplierForm.get('wsdlUrl')?.hasError('required') && supplierForm.get('wsdlUrl')?.touched">
+            WSDL URL is required for SOAP format
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>SOAP Operation</mat-label>
+          <mat-select formControlName="selectedOperation" [disabled]="soapOperations.length === 0" (selectionChange)="onOperationSelect()" required>
+            <mat-option *ngFor="let op of soapOperations" [value]="op.operationName">
+              {{ op.operationName }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="supplierForm.get('selectedOperation')?.hasError('required') && supplierForm.get('selectedOperation')?.touched">
+            SOAP Operation is required for SOAP format
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Display input fields for selected SOAP operation -->
+        <div *ngIf="selectedOperationMeta" class="soap-input-fields">
+          <h3>Operation Input Fields:</h3>
+          <mat-form-field *ngFor="let field of selectedOperationMeta.inputFields" class="full-width" appearance="outline">
+            <mat-label>{{ field.name }} ({{ field.type }})</mat-label>
+            <input matInput [formControlName]="'soapInput_' + field.name">
+            <mat-hint *ngIf="field.isComplex">Complex Type: {{ field.type }}</mat-hint>
+            <mat-hint *ngIf="field.isArray">Array Type</mat-hint>
+          </mat-form-field>
+        </div>
+      </ng-container>
+    </ng-container>
+
+    <mat-form-field class="full-width" appearance="outline">
+      <mat-label>Payout Frequency</mat-label>
+      <mat-select formControlName="payoutFrequency" required>
+        <mat-option value="DAILY">Daily</mat-option>
+        <mat-option value="WEEKLY">Weekly</mat-option>
+        <mat-option value="MONTHLY">Monthly</mat-option>
+      </mat-select>
+      <mat-error *ngIf="supplierForm.get('payoutFrequency')?.hasError('required') && supplierForm.get('payoutFrequency')?.touched">
+        Payout Frequency is required
+      </mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="dialogRef.close()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSave()" [disabled]="supplierForm.invalid">
+    {{ data ? 'Update' : 'Create' }}
+  </button>
+</mat-dialog-actions>

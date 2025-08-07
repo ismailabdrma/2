@@ -1,0 +1,85 @@
+<h2 mat-dialog-title>{{ data ? 'Edit Product' : 'Create Product' }}</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="productForm">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Product Name</mat-label>
+      <input matInput formControlName="name" required>
+      <mat-error *ngIf="productForm.get('name')?.hasError('required') && productForm.get('name')?.touched">
+        Product name is required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description" rows="3"></textarea>
+    </mat-form-field>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>Price</mat-label>
+        <input matInput type="number" formControlName="displayedPrice" min="0" step="0.01" required>
+        <mat-error *ngIf="productForm.get('displayedPrice')?.hasError('required') && productForm.get('displayedPrice')?.touched">
+          Price is required
+        </mat-error>
+        <mat-error *ngIf="productForm.get('displayedPrice')?.hasError('min') && productForm.get('displayedPrice')?.touched">
+          Price must be non-negative
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>Stock</mat-label>
+        <input matInput type="number" formControlName="syncedStock" min="0" required>
+        <mat-error *ngIf="productForm.get('syncedStock')?.hasError('required') && productForm.get('syncedStock')?.touched">
+          Stock is required
+        </mat-error>
+        <mat-error *ngIf="productForm.get('syncedStock')?.hasError('min') && productForm.get('syncedStock')?.touched">
+          Stock must be non-negative
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Category</mat-label>
+      <mat-select formControlName="categoryId" required>
+        <mat-option *ngFor="let category of categories" [value]="category.id">
+          {{ category.name }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="productForm.get('categoryId')?.hasError('required') && productForm.get('categoryId')?.touched">
+        Category is required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Supplier</mat-label>
+      <mat-select formControlName="supplierId" required>
+        <mat-option *ngFor="let supplier of suppliers" [value]="supplier.id">
+          {{ supplier.name }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="productForm.get('supplierId')?.hasError('required') && productForm.get('supplierId')?.touched">
+        Supplier is required
+      </mat-error>
+    </mat-form-field>
+
+    <div class="image-upload-section">
+      <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*" style="display: none;">
+      <button mat-raised-button color="accent" (click)="fileInput.click()">
+        <mat-icon>cloud_upload</mat-icon> Upload Image
+      </button>
+      <span class="file-name" *ngIf="selectedFileName">{{ selectedFileName }}</span>
+      <span class="file-name" *ngIf="!selectedFileName && currentImageUrl">Using existing image</span>
+    </div>
+    <div class="image-preview" *ngIf="currentImageUrl">
+      <img [src]="currentImageUrl" alt="Image Preview">
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="dialogRef.close()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSave()" [disabled]="productForm.invalid">
+    {{ data ? 'Update' : 'Create' }}
+  </button>
+</mat-dialog-actions>

@@ -1,0 +1,31 @@
+<div class="order-list-container">
+  <mat-card class="order-list-card">
+    <mat-card-header>
+      <mat-card-title>My Orders</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div *ngIf="orders.length > 0; else noOrders">
+        <mat-list>
+          <mat-list-item *ngFor="let order of orders" class="order-item">
+            <div matListItemTitle class="order-info">
+              <h3>Order #{{ order.id }}</h3>
+              <p>Date: {{ order.orderDate | date:'medium' }}</p>
+              <p>Total: {{ order.totalAmount | currency }}</p>
+            </div>
+            <div matListItemLine class="order-status">
+              <span [class]="'status-' + order.status.toLowerCase()">{{ order.status }}</span>
+              <span [class]="'status-' + order.deliveryStatus.toLowerCase()">{{ order.deliveryStatus }}</span>
+            </div>
+            <button mat-icon-button color="primary" [routerLink]="['/orders', order.id]">
+              <mat-icon>info</mat-icon>
+            </button>
+          </mat-list-item>
+        </mat-list>
+      </div>
+      <ng-template #noOrders>
+        <p class="no-orders-message">You haven't placed any orders yet.</p>
+        <button mat-raised-button color="accent" routerLink="/products">Start Shopping</button>
+      </ng-template>
+    </mat-card-content>
+  </mat-card>
+</div>

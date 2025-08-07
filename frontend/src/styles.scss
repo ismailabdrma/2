@@ -1,0 +1,73 @@
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+@import "src/app/shared/styles/utilities.scss";
+@import "src/app/shared/styles/auth.scss";
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+body {
+  background-color: #fafafa;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+.mat-mdc-card {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+  border-radius: 8px !important;
+}
+
+.mat-mdc-button {
+  border-radius: 6px !important;
+}
+
+.mat-mdc-raised-button {
+  border-radius: 6px !important;
+}
+
+@media (max-width: 768px) {
+  .hide-mobile {
+    display: none !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .hide-desktop {
+    display: none !important;
+  }
+}

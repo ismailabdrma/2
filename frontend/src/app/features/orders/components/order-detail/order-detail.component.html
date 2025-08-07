@@ -1,0 +1,63 @@
+<div class="order-detail-container">
+  <mat-card class="order-detail-card">
+    <mat-card-header>
+      <mat-card-title>Order Details</mat-card-title>
+    </mat-card-header>
+    <mat-card-content *ngIf="order; else loadingOrError">
+      <div class="order-header">
+        <h2>Order #{{ order.id }}</h2>
+        <p><strong>Order Date:</strong> {{ order.orderDate | date:'medium' }}</p>
+        <p><strong>Status:</strong> <span [class]="'status-' + order.status.toLowerCase()">{{ order.status }}</span></p>
+        <p><strong>Delivery Status:</strong> <span [class]="'status-' + order.deliveryStatus.toLowerCase()">{{ order.deliveryStatus }}</span></p>
+        <p><strong>Payment Status:</strong> <span [class]="'status-' + order.paymentStatus.toLowerCase()">{{ order.paymentStatus }}</span></p>
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <h3>Items</h3>
+      <mat-list class="order-items-list">
+        <mat-list-item *ngFor="let item of order.orderItems" class="order-item">
+          <img matListItemAvatar [src]="item.imageUrl || '/placeholder.svg?height=50&width=50&text=Product'" alt="Product Image" />
+          <div matListItemTitle class="item-details">
+            <h4>{{ item.productName }}</h4>
+            <p>Quantity: {{ item.quantity }}</p>
+            <p>Unit Price: {{ item.unitPrice | currency }}</p>
+          </div>
+          <div matListItemLine class="item-total">
+            Total: {{ item.totalPrice | currency }}
+          </div>
+        </mat-list-item>
+      </mat-list>
+
+      <mat-divider></mat-divider>
+
+      <h3>Shipping Address</h3>
+      <div class="shipping-address">
+        <p>{{ order.shippingAddress.label }}</p>
+        <p>{{ order.shippingAddress.street }}</p>
+        <p>{{ order.shippingAddress.city }}, {{ order.shippingAddress.state }} {{ order.shippingAddress.zipCode }}</p>
+        <p>{{ order.shippingAddress.country }}</p>
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <div class="order-summary">
+        <p>Subtotal: {{ order.totalAmount - order.shippingFee | currency }}</p>
+        <p>Shipping Fee: {{ order.shippingFee | currency }}</p>
+        <h3>Grand Total: {{ order.totalAmount | currency }}</h3>
+      </div>
+
+      <div class="order-actions">
+        <button mat-raised-button color="accent" routerLink="/orders">Back to Orders</button>
+        <button mat-raised-button color="primary" *ngIf="order.paymentStatus === 'PENDING'" (click)="retryPayment(order.id)">Retry Payment</button>
+      </div>
+    </mat-card-content>
+
+    <ng-template #loadingOrError>
+      <mat-card-content>
+        <p *ngIf="!order && !error">Loading order details...</p>
+        <p *ngIf="error" class="error-message">{{ error }}</p>
+      </mat-card-content>
+    </ng-template>
+  </mat-card>
+</div>

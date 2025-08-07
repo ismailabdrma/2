@@ -1,0 +1,10 @@
+@import '../../../../shared/styles/auth.scss';
+
+.otp-container {
+  @extend .auth-container;
+  @extend .auth-card;
+  padding: 20px;
+  max-width: 400px;
+  margin: 40px auto;
+  text-align: center;
+}

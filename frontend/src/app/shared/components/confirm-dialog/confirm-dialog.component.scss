@@ -1,0 +1,13 @@
+/* confirm-dialog.component.scss */
+mat-dialog-content {
+  text-align: center;
+  padding: 20px;
+}
+
+mat-dialog-actions {
+  justify-content: center;
+  gap: 16px;
+  padding-top: 0;
+}
+
+/* No specific styles needed for this simple dialog, Material handles most of it */

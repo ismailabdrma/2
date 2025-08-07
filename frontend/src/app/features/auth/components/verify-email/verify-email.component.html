@@ -1,0 +1,38 @@
+<div class="auth-container">
+  <mat-card class="auth-card">
+    <mat-card-header>
+      <mat-card-title>Verify Email</mat-card-title>
+      <mat-card-subtitle>Enter the OTP sent to your email</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="verifyEmailForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email" required>
+          <mat-error *ngIf="verifyEmailForm.get('email')?.hasError('required') && verifyEmailForm.get('email')?.touched">
+            Email is required
+          </mat-error>
+          <mat-error *ngIf="verifyEmailForm.get('email')?.hasError('email') && verifyEmailForm.get('email')?.touched">
+            Please enter a valid email
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>OTP</mat-label>
+          <input matInput formControlName="otp" required>
+          <mat-error *ngIf="verifyEmailForm.get('otp')?.hasError('required') && verifyEmailForm.get('otp')?.touched">
+            OTP is required
+          </mat-error>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit" class="full-width" [disabled]="verifyEmailForm.invalid">
+          Verify Email
+        </button>
+      </form>
+    </mat-card-content>
+    <mat-card-actions align="end">
+      <button mat-button (click)="resendOtp()" [disabled]="!verifyEmailForm.get('email')?.valid">Resend OTP</button>
+      <a mat-button routerLink="/auth/login">Back to Login</a>
+    </mat-card-actions>
+  </mat-card>
+</div>

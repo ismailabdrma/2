@@ -1,0 +1,16 @@
+<mat-card class="product-card" (click)="navigateToProductDetail()">
+  <img mat-card-image [src]="product.imageUrls[0] || '/placeholder.svg?height=200&width=200&text=Product Image'" alt="{{ product.name }}" />
+  <mat-card-content>
+    <h3 class="product-name">{{ product.name }}</h3>
+    <p class="product-category">{{ product.categoryName }}</p>
+    <p class="product-price">{{ product.displayedPrice | currency }}</p>
+    <p class="product-stock" [class.out-of-stock]="product.syncedStock === 0">
+      Stock: {{ product.syncedStock > 0 ? product.syncedStock : 'Out of Stock' }}
+    </p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="primary" (click)="addToCart($event)" [disabled]="product.syncedStock === 0">
+      <mat-icon>add_shopping_cart</mat-icon> Add to Cart
+    </button>
+  </mat-card-actions>
+</mat-card>

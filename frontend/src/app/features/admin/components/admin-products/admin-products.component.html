@@ -1,0 +1,116 @@
+<div class="admin-products-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Manage Products</mat-card-title>
+      <button mat-raised-button color="primary" (click)="openProductDialog()">
+        <mat-icon>add</mat-icon> Add New Product
+      </button>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="filterForm" class="filter-form">
+        <mat-form-field appearance="outline">
+          <mat-label>Search Products</mat-label>
+          <input matInput formControlName="search" placeholder="Search by name or description">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Category</mat-label>
+          <mat-select formControlName="categoryId">
+            <mat-option value="">All Categories</mat-option>
+            <mat-option *ngFor="let category of categories" [value]="category.id">
+              {{ category.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Min Price</mat-label>
+          <input matInput type="number" formControlName="minPrice" min="0">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Max Price</mat-label>
+          <input matInput type="number" formControlName="maxPrice" min="0">
+        </mat-form-field>
+        <mat-checkbox formControlName="active">Show Active Only</mat-checkbox>
+        <div class="filter-actions">
+          <button mat-raised-button color="primary" (click)="applyFilters()">Apply Filters</button>
+          <button mat-button (click)="clearFilters()">Clear Filters</button>
+        </div>
+      </form>
+
+      <div class="table-container">
+        <table mat-table [dataSource]="dataSource" matSort (matSortChange)="onSortChange($event)">
+          <!-- ID Column -->
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+          </ng-container>
+
+          <!-- Image Column -->
+          <ng-container matColumnDef="imageUrl">
+            <th mat-header-cell *matHeaderCellDef> Image </th>
+            <td mat-cell *matCellDef="let element">
+              <img [src]="element.imageUrls[0] || '/placeholder.svg'" alt="Product Image" class="product-image">
+            </td>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+          </ng-container>
+
+          <!-- Category Name Column -->
+          <ng-container matColumnDef="categoryName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Category </th>
+            <td mat-cell *matCellDef="let element"> {{element.categoryName}} </td>
+          </ng-container>
+
+          <!-- Displayed Price Column -->
+          <ng-container matColumnDef="displayedPrice">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Price </th>
+            <td mat-cell *matCellDef="let element"> {{element.displayedPrice | currency}} </td>
+          </ng-container>
+
+          <!-- Synced Stock Column -->
+          <ng-container matColumnDef="syncedStock">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Stock </th>
+            <td mat-cell *matCellDef="let element"> {{element.syncedStock}} </td>
+          </ng-container>
+
+          <!-- Active Column -->
+          <ng-container matColumnDef="active">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Active </th>
+            <td mat-cell *matCellDef="let element">
+              <mat-slide-toggle
+                [checked]="element.active"
+                (change)="toggleProductStatus(element.id, $event.checked)">
+              </mat-slide-toggle>
+            </td>
+          </ng-container>
+
+          <!-- Actions Column -->
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Actions </th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-icon-button color="accent" (click)="openProductDialog(element)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="deleteProduct(element.id)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+        <mat-paginator [length]="totalElements"
+                       [pageSize]="pageSize"
+                       [pageSizeOptions]="[5, 10, 25, 100]"
+                       (page)="onPageChange($event)"
+                       aria-label="Select page of products">
+        </mat-paginator>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

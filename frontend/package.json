@@ -1,0 +1,42 @@
+{
+  "name": "my-v0-project",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "test": "ng test",
+    "lint": "ng lint",
+    "e2e": "ng e2e"
+  },
+  "dependencies": {
+    "@angular/animations": "latest",
+    "@angular/cdk": "latest",
+    "@angular/common": "latest",
+    "@angular/compiler": "latest",
+    "@angular/core": "latest",
+    "@angular/forms": "latest",
+    "@angular/material": "latest",
+    "@angular/platform-browser": "latest",
+    "@angular/platform-browser-dynamic": "latest",
+    "@angular/router": "latest",
+    "@ngrx/effects": "^20.0.0",
+    "@ngrx/entity": "^20.0.0",
+    "@ngrx/router-store": "^20.0.0",
+    "@ngrx/store": "^20.0.0",
+    "@ngrx/store-devtools": "^20.0.0",
+    "rxjs": "latest",
+    "zone.js": "latest"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "latest",
+    "@angular/cli": "latest",
+    "@angular/compiler-cli": "latest",
+    "@types/node": "latest",
+    "angular-eslint": "20.1.1",
+    "eslint": "^9.29.0",
+    "typescript": "latest",
+    "typescript-eslint": "8.34.1"
+  }
+}

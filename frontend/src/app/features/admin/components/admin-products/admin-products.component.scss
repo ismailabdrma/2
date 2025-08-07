@@ -1,0 +1,104 @@
+.admin-products-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+mat-card {
+  margin-bottom: 20px;
+}
+
+mat-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 16px;
+}
+
+.filter-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+  align-items: end;
+
+  .filter-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  min-width: 1000px; /* Ensure table doesn't get too small on smaller screens */
+}
+
+th.mat-header-cell {
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.mat-column-id {
+  width: 80px;
+}
+
+.mat-column-imageUrl {
+  width: 80px;
+  text-align: center;
+  .product-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+}
+
+.mat-column-name {
+  width: 200px;
+}
+
+.mat-column-categoryName {
+  width: 150px;
+}
+
+.mat-column-displayedPrice {
+  width: 100px;
+  text-align: right;
+}
+
+.mat-column-syncedStock {
+  width: 100px;
+  text-align: center;
+}
+
+.mat-column-active {
+  width: 80px;
+  text-align: center;
+}
+
+.mat-column-actions {
+  width: 120px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .filter-form {
+    grid-template-columns: 1fr;
+  }
+  .filter-actions {
+    justify-content: flex-start;
+  }
+  mat-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    button {
+      margin-top: 10px;
+      width: 100%;
+    }
+  }
+}

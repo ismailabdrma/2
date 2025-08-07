@@ -1,0 +1,65 @@
+<div class="product-list-container">
+  <mat-card class="filters-card">
+    <mat-card-header>
+      <mat-card-title>Filters</mat-card-title>
+    </mat-card-header>
+    <mat-card-content [formGroup]="filterForm">
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Search Products</mat-label>
+        <input matInput formControlName="search" placeholder="e.g. Laptop, Phone" />
+        <button *ngIf="filterForm.get('search')?.value" matSuffix mat-icon-button (click)="filterForm.get('search')?.setValue('')">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Category</mat-label>
+        <mat-select formControlName="categoryId">
+          <mat-option value="">All Categories</mat-option>
+          <mat-option *ngFor="let category of categories" [value]="category.id">
+            {{ category.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="price-range-group">
+        <mat-form-field appearance="fill" class="price-input">
+          <mat-label>Min Price</mat-label>
+          <input matInput type="number" formControlName="minPrice" min="0" />
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="price-input">
+          <mat-label>Max Price</mat-label>
+          <input matInput type="number" formControlName="maxPrice" min="0" />
+        </mat-form-field>
+      </div>
+
+      <div class="filter-actions">
+        <button mat-raised-button color="primary" (click)="applyFilters()">Apply Filters</button>
+        <button mat-button (click)="clearFilters()">Clear Filters</button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="products-card">
+    <mat-card-header>
+      <mat-card-title>Products</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div *ngIf="dataSource.data.length > 0; else noProducts" class="product-grid">
+        <app-product-card *ngFor="let product of dataSource.data" [product]="product"></app-product-card>
+      </div>
+      <ng-template #noProducts>
+        <p class="no-products-message">No products found matching your criteria.</p>
+      </ng-template>
+    </mat-card-content>
+    <mat-card-actions *ngIf="totalElements > 0">
+      <mat-paginator
+        [length]="totalElements"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="[5, 10, 20]"
+        (page)="onPageChange($event)"
+        aria-label="Select page of products">
+      </mat-paginator>
+    </mat-card-actions>
+  </mat-card>
+</div>

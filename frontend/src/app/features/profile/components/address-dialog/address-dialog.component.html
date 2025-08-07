@@ -1,0 +1,44 @@
+<h2 mat-dialog-title>{{ data ? 'Edit Address' : 'Add New Address' }}</h2>
+<mat-dialog-content [formGroup]="addressForm">
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Label (e.g., Home, Work)</mat-label>
+    <input matInput formControlName="label" required />
+    <mat-error *ngIf="addressForm.get('label')?.hasError('required')">Label is required</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Street</mat-label>
+    <input matInput formControlName="street" required />
+    <mat-error *ngIf="addressForm.get('street')?.hasError('required')">Street is required</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>City</mat-label>
+    <input matInput formControlName="city" required />
+    <mat-error *ngIf="addressForm.get('city')?.hasError('required')">City is required</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>State</mat-label>
+    <input matInput formControlName="state" required />
+    <mat-error *ngIf="addressForm.get('state')?.hasError('required')">State is required</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Zip Code</mat-label>
+    <input matInput formControlName="zipCode" required />
+    <mat-error *ngIf="addressForm.get('zipCode')?.hasError('required')">Zip Code is required</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Country</mat-label>
+    <input matInput formControlName="country" required />
+    <mat-error *ngIf="addressForm.get('country')?.hasError('required')">Country is required</mat-error>
+  </mat-form-field>
+
+  <mat-checkbox formControlName="isDefault">Set as default address</mat-checkbox>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSave()" [disabled]="addressForm.invalid">Save</button>
+</mat-dialog-actions>

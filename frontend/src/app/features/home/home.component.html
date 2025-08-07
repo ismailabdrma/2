@@ -1,0 +1,23 @@
+<div class="home-container">
+  <mat-card class="hero-card">
+    <mat-card-content>
+      <h1>Welcome to Stage 2025 E-commerce!</h1>
+      <p>Discover amazing products and enjoy a seamless shopping experience.</p>
+      <button mat-raised-button color="primary" routerLink="/products">Shop Now</button>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="featured-products-card">
+    <mat-card-header>
+      <mat-card-title>Featured Products</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="product-grid">
+        <app-product-card *ngFor="let product of featuredProducts" [product]="product"></app-product-card>
+        <div *ngIf="featuredProducts.length === 0" class="no-products-message">
+          No featured products available at the moment.
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

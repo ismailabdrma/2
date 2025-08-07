@@ -1,0 +1,40 @@
+.user-create-container {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 64px); /* Adjust for toolbar height */
+}
+
+.user-create-card {
+  max-width: 500px;
+  width: 100%;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+mat-card-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+mat-card-title {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+button[type="submit"] {
+  padding: 10px 20px;
+}

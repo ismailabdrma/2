@@ -1,0 +1,79 @@
+<div class="admin-activity-logs-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Activity Logs</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="filterForm" class="filter-form">
+        <mat-form-field appearance="outline">
+          <mat-label>Username</mat-label>
+          <input matInput formControlName="username" placeholder="Filter by username">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Action Type</mat-label>
+          <input matInput formControlName="actionType" placeholder="Filter by action type">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Start Date</mat-label>
+          <input matInput [matDatepicker]="startDatePicker" formControlName="startDate">
+          <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #startDatePicker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>End Date</mat-label>
+          <input matInput [matDatepicker]="endDatePicker" formControlName="endDate">
+          <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #endDatePicker></mat-datepicker>
+        </mat-form-field>
+        <div class="filter-actions">
+          <button mat-raised-button color="primary" (click)="applyFilters()">Apply Filters</button>
+          <button mat-button (click)="clearFilters()">Clear Filters</button>
+        </div>
+      </form>
+
+      <div class="table-container">
+        <table mat-table [dataSource]="dataSource" matSort (matSortChange)="onSortChange($event)">
+          <!-- ID Column -->
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+          </ng-container>
+
+          <!-- Timestamp Column -->
+          <ng-container matColumnDef="timestamp">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Timestamp </th>
+            <td mat-cell *matCellDef="let element"> {{element.timestamp | date:'medium'}} </td>
+          </ng-container>
+
+          <!-- Username Column -->
+          <ng-container matColumnDef="username">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Username </th>
+            <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+          </ng-container>
+
+          <!-- Action Type Column -->
+          <ng-container matColumnDef="actionType">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Action Type </th>
+            <td mat-cell *matCellDef="let element"> {{element.actionType}} </td>
+          </ng-container>
+
+          <!-- Description Column -->
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef> Description </th>
+            <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+        <mat-paginator [length]="totalElements"
+                       [pageSize]="pageSize"
+                       [pageSizeOptions]="[5, 10, 25, 100]"
+                       (page)="onPageChange($event)"
+                       aria-label="Select page of activity logs">
+        </mat-paginator>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

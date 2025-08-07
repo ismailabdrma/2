@@ -1,0 +1,60 @@
+<div class="checkout-container">
+  <mat-card class="checkout-card">
+    <mat-card-header>
+      <mat-card-title>Checkout</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div *ngIf="cart && cart.items.length > 0; else emptyCart">
+        <h2>Order Summary</h2>
+        <mat-list>
+          <mat-list-item *ngFor="let item of cart.items">
+            <img matListItemAvatar [src]="item.imageUrl || '/placeholder.svg?height=40&width=40&text=Product'" alt="Product Image" />
+            <div matListItemTitle>{{ item.productName }} (x{{ item.quantity }})</div>
+            <div matListItemLine>{{ item.unitPrice | currency }} each</div>
+            <div matListItemLine class="item-total">{{ item.quantity * item.unitPrice | currency }}</div>
+          </mat-list-item>
+        </mat-list>
+
+        <mat-divider></mat-divider>
+
+        <div class="summary-details">
+          <p>Subtotal: {{ cart.totalAmount | currency }}</p>
+          <p>Shipping Fee: {{ shippingFee | currency }}</p>
+          <h3>Total: {{ (cart.totalAmount + shippingFee) | currency }}</h3>
+        </div>
+
+        <h2>Shipping Address</h2>
+        <div *ngIf="addresses.length > 0; else noAddresses">
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Select Address</mat-label>
+            <mat-select [formControl]="selectedAddressControl" required>
+              <mat-option *ngFor="let address of addresses" [value]="address.id">
+                {{ address.label }} - {{ address.street }}, {{ address.city }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="selectedAddressControl.hasError('required')">
+              Please select a shipping address.
+            </mat-error>
+          </mat-form-field>
+          <button mat-button color="accent" routerLink="/profile/addresses">Manage Addresses</button>
+        </div>
+        <ng-template #noAddresses>
+          <p class="no-addresses-message">No addresses found. Please add one in your profile.</p>
+          <button mat-raised-button color="accent" routerLink="/profile/addresses">Add New Address</button>
+        </ng-template>
+
+        <div class="checkout-actions">
+          <button mat-raised-button color="primary" (click)="placeOrder()" [disabled]="!selectedAddressControl.valid || isPlacingOrder">
+            <mat-icon *ngIf="isPlacingOrder">hourglass_empty</mat-icon>
+            {{ isPlacingOrder ? 'Placing Order...' : 'Place Order' }}
+          </button>
+        </div>
+      </div>
+
+      <ng-template #emptyCart>
+        <p class="empty-cart-message">Your cart is empty. Cannot proceed to checkout.</p>
+        <button mat-raised-button color="accent" routerLink="/products">Browse Products</button>
+      </ng-template>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,0 +1,66 @@
+.admin-activity-logs-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+mat-card {
+  margin-bottom: 20px;
+}
+
+.filter-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+  align-items: end;
+
+  .filter-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  min-width: 800px; /* Ensure table doesn't get too small on smaller screens */
+}
+
+th.mat-header-cell {
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.87); /* Darker text for headers */
+}
+
+.mat-column-id {
+  width: 80px;
+}
+
+.mat-column-timestamp {
+  width: 180px;
+}
+
+.mat-column-username {
+  width: 150px;
+}
+
+.mat-column-actionType {
+  width: 150px;
+}
+
+.mat-column-description {
+  flex: 1; /* Take remaining space */
+}
+
+@media (max-width: 768px) {
+  .filter-form {
+    grid-template-columns: 1fr;
+  }
+  .filter-actions {
+    justify-content: flex-start;
+  }
+}

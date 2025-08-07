@@ -1,0 +1,38 @@
+<div class="addresses-container">
+  <mat-card class="addresses-card">
+    <mat-card-header>
+      <mat-card-title>My Addresses</mat-card-title>
+      <button mat-raised-button color="primary" (click)="openAddressDialog()">
+        <mat-icon>add</mat-icon> Add New Address
+      </button>
+    </mat-card-header>
+    <mat-card-content>
+      <div *ngIf="addresses.length > 0; else noAddresses">
+        <mat-list>
+          <mat-list-item *ngFor="let address of addresses" class="address-item">
+            <div matListItemTitle class="address-details">
+              <h3>{{ address.label }} <span *ngIf="address.isDefault" class="default-badge">Default</span></h3>
+              <p>{{ address.street }}</p>
+              <p>{{ address.city }}, {{ address.state }} {{ address.zipCode }}</p>
+              <p>{{ address.country }}</p>
+            </div>
+            <div matListItemActions class="address-actions">
+              <button mat-icon-button color="accent" (click)="setAsDefault(address.id)" [disabled]="address.isDefault" matTooltip="Set as Default">
+                <mat-icon>star</mat-icon>
+              </button>
+              <button mat-icon-button color="primary" (click)="openAddressDialog(address)" matTooltip="Edit Address">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="deleteAddress(address.id)" matTooltip="Delete Address">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </mat-list-item>
+        </mat-list>
+      </div>
+      <ng-template #noAddresses>
+        <p class="no-addresses-message">You have no saved addresses.</p>
+      </ng-template>
+    </mat-card-content>
+  </mat-card>
+</div>

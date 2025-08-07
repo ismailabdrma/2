@@ -1,0 +1,52 @@
+<div class="cart-container">
+  <mat-card class="cart-card">
+    <mat-card-header>
+      <mat-card-title>Your Shopping Cart</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div *ngIf="cart && cart.items.length > 0; else emptyCart">
+        <mat-list>
+          <mat-list-item *ngFor="let item of cart.items" class="cart-item">
+            <img matListItemAvatar [src]="item.imageUrl || '/placeholder.svg?height=50&width=50&text=Product'" alt="Product Image" />
+            <div matListItemTitle class="item-details">
+              <h3>{{ item.productName }}</h3>
+              <p>Price: {{ item.unitPrice | currency }}</p>
+            </div>
+            <div matListItemLine class="item-quantity-controls">
+              <button mat-icon-button (click)="updateQuantity(item.productId, item.quantity - 1)" [disabled]="item.quantity <= 1">
+                <mat-icon>remove</mat-icon>
+              </button>
+              <span>{{ item.quantity }}</span>
+              <button mat-icon-button (click)="updateQuantity(item.productId, item.quantity + 1)">
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+            <div matListItemLine class="item-total">
+              Total: {{ item.quantity * item.unitPrice | currency }}
+            </div>
+            <button mat-icon-button color="warn" (click)="removeItem(item.productId)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-list-item>
+        </mat-list>
+
+        <mat-divider></mat-divider>
+
+        <div class="cart-summary">
+          <p>Total Items: {{ cart.totalItems }}</p>
+          <h3>Subtotal: {{ cart.totalAmount | currency }}</h3>
+        </div>
+
+        <div class="cart-actions">
+          <button mat-raised-button color="warn" (click)="clearCart()">Clear Cart</button>
+          <button mat-raised-button color="primary" routerLink="/orders/checkout">Proceed to Checkout</button>
+        </div>
+      </div>
+
+      <ng-template #emptyCart>
+        <p class="empty-cart-message">Your cart is empty. Start shopping now!</p>
+        <button mat-raised-button color="accent" routerLink="/products">Browse Products</button>
+      </ng-template>
+    </mat-card-content>
+  </mat-card>
+</div>

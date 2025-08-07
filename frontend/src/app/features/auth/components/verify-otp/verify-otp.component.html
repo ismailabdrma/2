@@ -1,0 +1,41 @@
+<div class="auth-container">
+  <mat-card class="auth-card">
+    <mat-card-header>
+      <mat-card-title>Verify OTP</mat-card-title>
+      <mat-card-subtitle>Enter the OTP sent to your email to complete login</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="verifyOtpForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email" required readonly>
+          <mat-error *ngIf="verifyOtpForm.get('email')?.hasError('required') && verifyOtpForm.get('email')?.touched">
+            Email is required
+          </mat-error>
+          <mat-error *ngIf="verifyOtpForm.get('email')?.hasError('email') && verifyOtpForm.get('email')?.touched">
+            Please enter a valid email
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>OTP</mat-label>
+          <input matInput formControlName="otp" required maxlength="6">
+          <mat-error *ngIf="verifyOtpForm.get('otp')?.hasError('required') && verifyOtpForm.get('otp')?.touched">
+            OTP is required
+          </mat-error>
+          <mat-error *ngIf="verifyOtpForm.get('otp')?.hasError('maxlength') && verifyOtpForm.get('otp')?.touched">
+            OTP must be 6 digits
+          </mat-error>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit" class="full-width" [disabled]="verifyOtpForm.invalid">
+          Verify & Login
+        </button>
+      </form>
+    </mat-card-content>
+    <mat-card-actions align="end">
+      <button mat-button (click)="resendOtp()" [disabled]="!verifyOtpForm.get('email')?.value">Resend OTP</button>
+      <a mat-button routerLink="/auth/login">Back to Login</a>
+    </mat-card-actions>
+  </mat-card>
+</div>
