@@ -1,5 +1,12 @@
 import { Component, Inject } from "@angular/core"
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from "@angular/material/dialog"
+import {
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+  MatDialogTitle,
+  MatDialogContent,
+  MatDialogActions,
+  MatDialogClose,
+} from "@angular/material/dialog"
 import { MatButtonModule } from "@angular/material/button"
 
 export interface ConfirmDialogData {
@@ -10,7 +17,7 @@ export interface ConfirmDialogData {
 @Component({
   selector: "app-confirm-dialog",
   standalone: true,
-  imports: [MatDialogTitle, MatDialogContent, MatDialogActions, MatButtonModule],
+  imports: [MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MatButtonModule],
   templateUrl: "./confirm-dialog.component.html",
   styleUrl: "./confirm-dialog.component.scss",
 })

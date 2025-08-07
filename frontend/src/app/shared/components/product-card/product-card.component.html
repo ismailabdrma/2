@@ -4,12 +4,12 @@
     <h3 class="product-name">{{ product.name }}</h3>
     <p class="product-category">{{ product.categoryName }}</p>
     <p class="product-price">{{ product.displayedPrice | currency }}</p>
-    <p class="product-stock" [class.out-of-stock]="product.syncedStock === 0">
-      Stock: {{ product.syncedStock > 0 ? product.syncedStock : 'Out of Stock' }}
+    <p class="product-stock" [class.out-of-stock]="(product?.syncedStock ?? 0) === 0">
+      Stock: {{ (product?.syncedStock ?? 0) > 0 ? product?.syncedStock : 'Out of Stock' }}
     </p>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-raised-button color="primary" (click)="addToCart($event)" [disabled]="product.syncedStock === 0">
+    <button mat-raised-button color="primary" (click)="addToCart($event)" [disabled]="(product?.syncedStock ?? 0) === 0">
       <mat-icon>add_shopping_cart</mat-icon> Add to Cart
     </button>
   </mat-card-actions>
