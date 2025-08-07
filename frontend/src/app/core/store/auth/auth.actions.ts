@@ -25,6 +25,9 @@ export const AuthActions = createActionGroup({
     "Reset Password": props<{ email: string; otp: string; newPassword: string }>(),
     "Reset Password Success": props<{ message: string }>(),
 
+    "Update User Profile": props<{ user: Partial<User> }>(),
+    "Change Password": props<{ passwordChangeRequest: { currentPassword: string; newPassword: string } }>(),
+
     // New action to reset only UI state (loading, error, message, OTP flags)
     "Reset Auth UI": emptyProps(),
   },

@@ -97,9 +97,9 @@ export class ProfileComponent implements OnInit {
         id: this.currentUser.id,
         username: this.profileForm.value.username!,
         email: this.profileForm.value.email!,
-        firstName: this.profileForm.value.firstName || null,
-        lastName: this.profileForm.value.lastName || null,
-        phone: this.profileForm.value.phone || null,
+        firstName: this.profileForm.value.firstName || undefined,
+        lastName: this.profileForm.value.lastName || undefined,
+        phone: this.profileForm.value.phone || undefined,
       }
       this.store.dispatch(AuthActions.updateUserProfile({ user: updatedUser }))
     }

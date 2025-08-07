@@ -28,12 +28,13 @@ export class ProductCardComponent {
 
   addToCart(event: Event): void {
     event.stopPropagation() // Prevent navigating to detail page
-    if (this.product.syncedStock > 0) {
-      this.cartService.addToCart(this.product.id, 1).subscribe({
+    const stock = this.product.syncedStock ?? 0
+    if (stock > 0) {
+      this.cartService.addItemToCart({ productId: this.product.id, quantity: 1 }).subscribe({
         next: () => {
           this.snackBar.open(`${this.product.name} added to cart!`, "Close", { duration: 2000 })
         },
-        error: (err) => {
+        error: (err: unknown) => {
           console.error("Error adding to cart:", err)
           this.snackBar.open(`Failed to add ${this.product.name} to cart.`, "Close", {
             duration: 3000,
